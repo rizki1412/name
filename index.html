@@ -15,12 +15,18 @@
          padding:10px;
          margin: 5px
       }
+
+      table, th, td {
+         border-collapse: collapse;
+         border: 1px solid black;
+         padding: 5px;
+      }
    </style>
 </head>
 <body>
-   <h1>Akses API dengan Jquery ajax</h1>
+   <h1>Akses API dengan Jquery Ajax - Data Wilayah Indonesia</h1>
    <button id="tombol">Load</button><img id="load" src="load.gif">
-   <table border="1"></table>
+   <table></table>
    <script>      
       $().ready(function(){
          $("#load").hide();
@@ -31,17 +37,24 @@
                dataType: "json",
                url: "https://ibnux.github.io/BMKG-importer/cuaca/wilayah.json", 
                beforeSend: function(){ //proses sebelum ajax berjalan
+                  $("#tombol").hide();
                   $("#load").show();
                },
                success: function(result){ //berhasil
                   console.log(result);
-                  
-                  
-                  //masukkan kedalam table
-                  
-                     
-                  $("load").append();
 
+                  $("table > tr").remove(); //bersihkan tabel, agar tak menumpuk datanya
+                  
+                  var table = "";
+
+                  table +="<tr><th>ID</td><th>Wilayah</th><th>Lattitude - Longitude</th><th>Lihat Peta</th></tr>";
+                  $.each(JSON.parse(JSON.stringify(result)), function(key, val){
+                     table +="<tr><td>"+ val.id +"</td><td>"+ val.kota +", "+ val.kecamatan +", "+ val.propinsi +"</td><td>"+ val.lat +" - "+ val.lon +"</td><td><a href='https://www.latlong.net/c/?lat="+ val.lat +"&long="+ val.lon +"' target='_blank'>Detil Peta     </a></td></tr>";
+                  });
+                     
+                  $("table").append(table); //masukkan kedalam table  
+
+                  $("#tombol").show();
                   $("#load").hide();
                }
             });
