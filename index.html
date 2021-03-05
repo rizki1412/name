@@ -25,7 +25,9 @@
 </head>
 <body>
    <h1>Akses API dengan Jquery Ajax - Data Wilayah Indonesia</h1>
-   <button id="tombol">Load</button><img id="load" src="load.gif">
+   <button id="tombol">Wilayah</button><img id="load" src="load.gif">
+    <button id="tombol1">Cuaca Hari ini</button>
+    <button id="tombol2">Hapus Data</button>
    <table></table>
    <script>      
       $().ready(function(){
@@ -61,5 +63,40 @@
          });
       });
    </script>
+   <script>      
+      $().ready(function(){
+         $("#load").hide();
+
+         $("#tombol1").click(function(){
+            //ajax
+            $.ajax({
+               dataType: "json",
+               url: "https://ibnux.github.io/BMKG-importer/cuaca/501233.json", 
+               beforeSend: function(){ //proses sebelum ajax berjalan
+                  $("#tombol1").hide();
+                  $("#load").show();
+               },
+               success: function(result){ //berhasil
+                  console.log(result);
+
+                  $("cuaca > tr").remove(); //bersihkan tabel, agar tak menumpuk datanya
+                  
+                  var cuaca = "";
+
+                  cuaca +="<tr><th>Jam Cuaca</td><th>Kode Cuaca</th><th>Cuaca</th><th>Humidity</th><th>Temperatur C dan F</th></tr>";
+                  $.each(JSON.parse(JSON.stringify(result)), function(key, val){
+                     cuaca +="<tr><td>"+ val.jamCuaca +"</td><td>"+ val.kodeCuaca +"</td><td>"+ val.cuaca +"</td><td>"+ val.humidity +"</td><td>"+ val.tempC +" - "+ val.tempF +"</td></tr>";
+                  });
+                     
+                  $("table").append(cuaca); //masukkan kedalam table  
+
+                  $("#tombol1").show();
+                  $("#load").hide();
+               }
+            });
+         });
+      });
+   </script>
+
 </body>
 </html>
