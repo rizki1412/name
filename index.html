@@ -27,7 +27,6 @@
    <h1>Akses API dengan Jquery Ajax - Data Wilayah Indonesia</h1>
    <button id="tombol">Wilayah</button><img id="load" src="load.gif">
     <button id="tombol1">Cuaca Hari ini</button>
-    <button id="tombol2">Hapus Data</button>
    <table></table>
    <script>      
       $().ready(function(){
@@ -79,7 +78,11 @@
                success: function(result){ //berhasil
                   console.log(result);
 
-                  $("cuaca > tr").remove(); //bersihkan tabel, agar tak menumpuk datanya
+                  //salah
+                  //$("cuaca > tr").remove(); //bersihkan tabel, agar tak menumpuk datanya
+                  
+                  //table itu komponen HTML
+                  $("table > tr").remove(); //bersihkan tabel, agar tak menumpuk datanya
                   
                   var cuaca = "";
 
