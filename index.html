@@ -45,8 +45,8 @@
                success: function(result){ //berhasil
                   console.log(result);
 
-                  $("table > tr").remove(); //bersihkan tabel, agar tak menumpuk datanya
-                  
+                  $("table > tr").remove("") //bersihkan tabel, agar tak menumpuk datanya
+
                   var table = "";
 
                   table +="<tr><th>ID</td><th>Wilayah</th><th>Lattitude - Longitude</th><th>Lihat Peta</th></tr>";
@@ -97,6 +97,5 @@
          });
       });
    </script>
-
 </body>
 </html>
